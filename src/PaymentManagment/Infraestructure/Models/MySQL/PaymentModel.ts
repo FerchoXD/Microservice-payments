@@ -14,4 +14,4 @@ PaymentModel.init({
     uuid: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
     paymentState: { type: DataTypes.STRING, allowNull: false },
     paymentDate: { type: DataTypes.DATE, allowNull: false },
-}, { modelName: 'payment', timestamps: false, sequelize });
+}, { modelName: 'payment', timestamps: true, sequelize });
