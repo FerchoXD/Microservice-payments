@@ -1,9 +1,9 @@
 import { Payment } from "../Entities/Payment";
 
 export interface IPayment {
-    CreatePayment(payment:Payment):Promise<Payment|any>;
+    CreatePayment(data:any):Promise<any>;
     GetPayments():Promise<Payment[]>;
-    UpdatePayment(payment:Payment):Promise<Payment>;
+    UpdatePayment(paymentData: Partial<Payment> & { uuid: string }):Promise<any>;
     //getPayment(uuid:string):Promise<Payment>;
     //deletePayment(uuid:string):Promise<boolean>;
 }

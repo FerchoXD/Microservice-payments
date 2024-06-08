@@ -2,18 +2,14 @@ import {Request, Response} from 'express';
 import { UpdatePaymentsUseCase } from '../../Application/UseCases/UpdatePaymentsUseCase';
 
 export class UpdatePaymentsController {
-
-    constructor( readonly updatePaymentsUseCase: UpdatePaymentsUseCase) {
-        this.updatePaymentsUseCase = updatePaymentsUseCase;
-    }
+    constructor(readonly updatePaymentsUseCase: UpdatePaymentsUseCase) {}
 
     async run(req: Request, res: Response) {
-        const payment = req.body.payment;
-        try {
-            const response = await this.updatePaymentsUseCase.execute(payment);
-            res.status(200).send(response);
-        } catch (error) {
-            res.status(400).send(error);
-        }
+        const uuid = req.params.UUID;
+        const updateData = req.body;
+
+        const response = await this.updatePaymentsUseCase.run(uuid, updateData);
+        return res.status(response.status).json(response);
     }
+    
 }

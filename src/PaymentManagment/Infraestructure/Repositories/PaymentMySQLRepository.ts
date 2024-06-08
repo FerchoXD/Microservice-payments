@@ -22,27 +22,32 @@ export class PaymentMySQLRepository implements IPayment {
             return newPayment;
         }
 
-        async UpdatePayment(payment: Payment): Promise<Payment> {
-            const updatedPayment = {
-                //* here you must specify the properties you want to update
-                //paymentamount: payment.paymentAmount,
-                //paymentmethod: payment.paymentMethod,
-                //paymentdescription: payment.paymentDescription,
-                //paymentcurrency: payment.paymentCurrency,
-                //paymenttype: payment.paymentType,
-                // updatedAt: new Date()
-                paymentstate: payment.paymentState,
-                paymentdate: payment.paymentDate,
-                paymentmethod: payment.paymentMethodUUID,
-                paymenttransaction: payment.transactionUUID,
-            };
-    
-            await PaymentModel.update(updatedPayment, {
-                where: {
-                    id: payment.uuid
+        async UpdatePayment(paymentData: Partial<Payment> & { uuid: string }): Promise<any> {
+            const { uuid, ...updateData } = paymentData;
+            try {
+                const payment = await PaymentModel.findByPk(uuid);
+                if (!payment) {
+                    return {
+                        status: 404,
+                        message: "Payment not found",
+                    }
                 }
-            });
-            return payment;
+
+                Object.assign(payment, updateData);
+
+                await payment.save();
+
+                return {
+                    status: 200,
+                    payment,
+                }
+            } catch (error) {
+                return {
+                    status: 500,
+                    message: error,
+                }
+            }
+
         }
     
 }

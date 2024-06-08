@@ -1,13 +1,9 @@
 import { IPayment } from "../../Domain/Ports/IPayment";
 
 export class UpdatePaymentsUseCase {
-    private paymentRepository: IPayment;
+    constructor(readonly paymentRepository: IPayment) {}
 
-    constructor(paymentRepository: IPayment) {
-        this.paymentRepository = paymentRepository;
-    }
-
-    async execute(payment: any) {
-        return await this.paymentRepository.UpdatePayment(payment);
+    async run(uuid: string, updateData: Partial<any>) {
+        return await this.paymentRepository.UpdatePayment({uuid, ...updateData });
     }
 }
