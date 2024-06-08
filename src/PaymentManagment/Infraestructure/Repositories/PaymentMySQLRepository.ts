@@ -9,26 +9,19 @@ export class PaymentMySQLRepository implements IPayment {
             return await PaymentModel.findAll();
         }
     
-        async CreatePayment(payment: Payment): Promise<Payment> {
-            payment.uuid = generateUuid();
+        async CreatePayment(payment: any): Promise<any> {
+            const newPayment = {
+                uuid: generateUuid(),
+                paymentState: payment.paymentState,
+                paymentDate: payment.paymentDate || new Date(), // Asigna la fecha actual si no se proporciona
+                paymentMethodUUID: payment.paymentMethodUUID,
+                transactionUUID: payment.transactionUUID,
+            };
     
-            try {
-                const createdPayment = await PaymentModel.create({
-                    uuid: payment.uuid,
-                    paymentState: payment.paymentState,
-                    paymentDate: payment.paymentDate,
-                    paymentMethodUUID: payment.paymentMethodUUID,
-                    transactionUUID: payment.transactionUUID
-                });
-    
-                return createdPayment;
-            } catch (error) {
-                throw new Error(`Error creating payment: ${error}`);
-            }
+            await PaymentModel.create(newPayment);
+            return newPayment;
         }
 
-        
-    
         async UpdatePayment(payment: Payment): Promise<Payment> {
             const updatedPayment = {
                 //* here you must specify the properties you want to update
