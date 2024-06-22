@@ -12,7 +12,7 @@ export class TransactionModel extends Model {
 }
 
 TransactionModel.init({
-    idTransaction: { 
+    uuid: { 
         type: DataTypes.UUID, 
         defaultValue: DataTypes.UUIDV4, 
         primaryKey: true 
@@ -25,12 +25,12 @@ TransactionModel.init({
         type: DataTypes.STRING, 
         allowNull: false 
     },
-    userId: { 
+    userUUID: { 
         type: DataTypes.UUID, 
         defaultValue: DataTypes.UUIDV4, 
         allowNull: false 
     },
-    shipmentId: { 
+    shipmentUUID: { 
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4, 
         allowNull: false 
