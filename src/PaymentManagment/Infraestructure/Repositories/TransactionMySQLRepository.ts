@@ -3,42 +3,30 @@ import { TransactionModel } from "../Models/MySQL/TransactionModel";
 
 export class TransactionMySQLRepository implements ITransaction {
 
-    async create(membershipName: string, status: string, userUUID: string, shipmentUUID: string, amount: number, date: Date): Promise<any> {
-        try{
-            if(membershipName){
-                const data = await TransactionModel.create({
-                    membershipName,
-                    status,
-                    userUUID,
-                    amount,
-                    date
-                });
-    
-                return {
-                    status: 201,
-                    data: data.toJSON()
-                };
-            }else{
-                const data = await TransactionModel.create({
-                    status,
-                    userUUID,
-                    shipmentUUID,
-                    amount,
-                    date
-                });
-    
-                return {
-                    status: 201,
-                    data: data.toJSON()
-                };
-            }
-        }catch(error){
+    async create(membershipName: string, status: string, userUUID: string, shipmentUUID: string, amount: number, transactionDate: Date): Promise<any> {
+        try {
+            let data;
+            data = await TransactionModel.create({
+                membershipName,
+                status,
+                userUUID,
+                shipmentUUID,
+                amount,
+                transactionDate
+            });
+            console.log("I'm returing the data", data.toJSON());
+            return {
+                status: 201,
+                data: data.toJSON()
+            };
+        } catch (error) {
             return {
                 status: 500,
-                message: 'Internal server error',
+                message: `Internal server error ${error}`,
             };
         }
     }
+
 
     async getMembershipByUser(userUUID: string): Promise<any> {
         try {
