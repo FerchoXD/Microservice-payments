@@ -9,7 +9,7 @@ export class GetMembershipByUserController {
     async run(req: Request, res: Response) {
 
         if (!validateProperties(req.body, ...['userUUID'])) {
-            return res.status(400).send('Missing required properties');
+            return res.status(400).json({message: "'Missing required properties'"});
         }
 
         const response = await this.useCase.run(req.body.userUUID);

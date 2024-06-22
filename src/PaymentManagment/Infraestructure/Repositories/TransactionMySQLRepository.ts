@@ -10,7 +10,7 @@ export class TransactionMySQLRepository implements ITransaction {
     async getMembershipByUser(userUUID: string): Promise<any> {
         try {
             const data = await TransactionModel.findOne({
-                where: { userIUID: userUUID },
+                where: { userUUID: userUUID },
                 attributes: ['uuid', 'userUUID', 'membershipName', 'status']
             });
 
@@ -36,7 +36,7 @@ export class TransactionMySQLRepository implements ITransaction {
     async getShipmentByUUID(shipmentUUID: string): Promise<any> {
         try {
             const data = await TransactionModel.findOne({
-                where: { userIUID: shipmentUUID },
+                where: { shipmentUUID: shipmentUUID },
                 attributes: ['uuid', 'userUUID', 'amount', 'status']
             });
 
