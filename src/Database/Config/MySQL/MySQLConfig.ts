@@ -1,6 +1,6 @@
 import sequelize from './Database';
 import { DatabaseConfig } from '../IDatabaseConfig';
-import "./Relations";
+import '../../../PaymentManagment/Infraestructure/Models/MySQL/TransactionModel';
 
 export class MySQLConfig implements DatabaseConfig {
   async initialize(): Promise<void> {

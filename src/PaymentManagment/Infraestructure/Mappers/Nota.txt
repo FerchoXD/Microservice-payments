@@ -1,2 +1,0 @@
-Aca estaran todas las funciones para que se manden a llamar en los repositorios pueda transformarse al de la entidad de dominio o una
-similar a esta
