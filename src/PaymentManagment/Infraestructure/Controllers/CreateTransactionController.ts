@@ -17,7 +17,7 @@ export class CreateTransactioncontroller {
         ];
 
         if (!validateProperties(req.body, ...requiredProperties)) {
-            return res.status(400).send('Missing required properties');
+            return res.status(400).json('Missing required properties');
         }
     
         const { membershipName, status, userUUID, shipmentUUID, amount, date } = req.body;

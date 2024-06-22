@@ -1,4 +1,5 @@
 import { ITransaction } from "../../Domain/Ports/ITransaction";
+import { TransactionModel } from "../Models/MySQL/TransactionModel";
 
 export class TransactionMySQLRepository implements ITransaction {
 
@@ -7,11 +8,55 @@ export class TransactionMySQLRepository implements ITransaction {
     }
 
     async getMembershipByUser(userUUID: string): Promise<any> {
-        throw new Error("Method not implemented.");
+        try {
+            const data = await TransactionModel.findOne({
+                where: { userUUID: userUUID },
+                attributes: ['uuid', 'userUUID', 'membershipName', 'status']
+            });
+
+            if (!data) {
+                return {
+                    status: 404,
+                    message: 'User not found',
+                };
+            }
+
+            return {
+                status: 200,
+                data: data.toJSON()
+            };
+        } catch (error) {
+            return {
+                status: 500,
+                message: 'Internal server error',
+            };
+        }
     }
 
-    async getShipmentByUUID(uuid: string): Promise<any> {
-        throw new Error("Method not implemented.");
+    async getShipmentByUUID(shipmentUUID: string): Promise<any> {
+        try {
+            const data = await TransactionModel.findOne({
+                where: { shipmentUUID: shipmentUUID },
+                attributes: ['uuid', 'userUUID', 'amount', 'status']
+            });
+
+            if (!data) {
+                return {
+                    status: 404,
+                    message: 'User not found',
+                };
+            }
+
+            return {
+                status: 200,
+                data: data.toJSON()
+            };
+        } catch (error) {
+            return {
+                status: 500,
+                message: 'Internal server error',
+            };
+        }
     }
 
 }
