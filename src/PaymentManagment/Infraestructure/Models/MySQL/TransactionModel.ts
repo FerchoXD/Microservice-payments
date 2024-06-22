@@ -25,12 +25,12 @@ TransactionModel.init({
         type: DataTypes.STRING, 
         allowNull: false 
     },
-    userId: { 
+    userIUID: { 
         type: DataTypes.UUID, 
         defaultValue: DataTypes.UUIDV4, 
         allowNull: false 
     },
-    shipmentId: { 
+    shipmentUUID: { 
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4, 
         allowNull: false 
