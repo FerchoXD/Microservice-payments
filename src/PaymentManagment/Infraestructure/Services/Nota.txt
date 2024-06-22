@@ -1,2 +1,0 @@
-Aca estaran todos los archivos que implementaran la funcionalidad de un servicio como RabbitMq pero que implementara la interfaz
-correspondiente que venga de Domain
