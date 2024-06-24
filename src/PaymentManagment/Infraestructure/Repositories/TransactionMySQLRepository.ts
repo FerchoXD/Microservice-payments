@@ -2,6 +2,20 @@ import { ITransaction } from "../../Domain/Ports/ITransaction";
 import { TransactionModel } from "../Models/MySQL/TransactionModel";
 
 export class TransactionMySQLRepository implements ITransaction {
+    async getAll(): Promise<any> {
+        try {
+            const data = await TransactionModel.findAll({ 
+                where: { status: 'Done' },
+                attributes: ['userUUID', 'membershipName', 'amount', 'transactionDate'] 
+            })
+            return { status: 200, data }
+        } catch (error) {
+            return {
+                status: 500,
+                message: `Internal server error ${error}`,
+            };
+        }
+    }
 
     async create(membershipName: string, status: string, userUUID: string, shipmentUUID: string, amount: number, transactionDate: Date): Promise<any> {
         try {
