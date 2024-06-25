@@ -1,0 +1,46 @@
+version: 0.2
+
+env:
+  parameter-store:
+    DB_HOST: "/90minutes/dev/services/payments/DB_HOST"
+    DB_USER: "/90minutes/dev/services/payments/DB_USER"
+    DB_PASSWORD: "/90minutes/dev/services/payments/DB_PASSWORD"
+    DB_NAME: "/90minutes/dev/services/payments/DB_NAME"
+    PORT: "/90minutes/dev/services/payments/PORT"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: latest
+    commands:
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+  pre_build:
+    commands:
+      - echo log in to Amazon ECR...
+      - aws --version
+      - echo $AWS_DEFAULT_REGION
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 471112887179.dkr.ecr.us-east-2.amazonaws.com
+      - REPOSITORY_URI=471112887179.dkr.ecr.us-east-2.amazonaws.com/dev-payments-service
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image.
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo write definitions file...
+      # Give your container name
+      - DOCKER_CONTAINER_NAME=dev-payments-service
+      - printf '[{"name":"%s","imageUri":"%s"}]' $DOCKER_CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - echo $DOCKER_CONTAINER_NAME
+      - echo printing imagedefinitions.json
+      - cat imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
