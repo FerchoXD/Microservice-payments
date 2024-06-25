@@ -1,12 +1,13 @@
 FROM node:latest
 
-WORKDIR /usr/app
+WORKDIR /usr/src/app
 
 COPY package*.json ./
-COPY src ./src
-
 RUN npm install
 
-EXPOSE 8080
+COPY . .
 
-CMD ["npm","run" ,"dev"]
+RUN npm run build
+
+EXPOSE 8080
+CMD [ "npm", "start" ]
