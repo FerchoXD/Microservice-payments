@@ -2,7 +2,7 @@
     "scripts": {
         "dev": "tsc-watch --onSuccess \"node dist/PaymentManagment/app.js\"",
         "build": "npx tsc",
-        "start": "node dist/app.js",
+        "start": "node dist/PaymentManagment/app.js",
         "test": "jest"
     },
     "dependencies": {
