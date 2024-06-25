@@ -10,4 +10,4 @@ RUN npm install -g ts-node-dev
 
 EXPOSE 8080
 
-CMD ["tsnd","--respawn" ,"src/app.ts"]
+CMD ["npm","run" ,"dev"]
