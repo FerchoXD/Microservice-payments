@@ -7,7 +7,7 @@ const app:Application = express();
 app.use(express.json());
 app.use(cors());
 
-app.use('/api/v1/transactions', TransactionRouter);
+app.use('/payments/api/v1/transactions', TransactionRouter);
 
 const port:string = process.env.PORT || '3000';
 
