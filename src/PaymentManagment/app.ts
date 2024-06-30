@@ -12,7 +12,7 @@ app.use(cors());
 
 app.use('/payments/api/v1/transactions', TransactionRouter);
 
-const PORT:number = Number(process.env.PORT || 3000);
+const PORT:number = Number(8080);
 const HOST:string = process.env.HOST_SERVER || '0.0.0.0';
 let server = null;
 
