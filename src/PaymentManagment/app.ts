@@ -3,7 +3,6 @@ import cors from "cors";
 import morgan from 'morgan';
 import { TransactionRouter } from "./Infraestructure/Routes/TransactionRouter";
 import { DecreaceSoldProductUseCaseService } from "./Infraestructure/Dependencies";
-import { setupRabbitMQ } from "./Infraestructure/config/RabbitConfig";
 
 const app:Application = express();
 
@@ -47,5 +46,3 @@ async function startServer() {
 startServer();
 
 export { app, server };
-
-

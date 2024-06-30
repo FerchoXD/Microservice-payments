@@ -8,6 +8,9 @@ import { GetMembershipByUserController } from "./Controllers/GetMembershipByUser
 import { GetShipmentByUUIDController } from "./Controllers/GetShipmentByUUIDController";
 import { TransactionMySQLRepository } from "./Repositories/TransactionMySQLRepository";
 import { UserMembershipSaga } from "../Application/Services/UserMembershipSaga";
+import { SendInformationAdministrationUseCaseService } from "../Application/UseCases/SendInformationAdministrationUseCaseService";
+import { SendInformationAdministrationSaga } from "../Application/Services/SendInformationAdministrationSaga";
+import { SendInformationAdministrationController } from "./Controllers/SendInformationAdministrationController";
 
 export type DatabaseType = 'MySQL';
 const dbType: DatabaseType = 'MySQL';
@@ -29,8 +32,12 @@ export async function DecreaceSoldProductUseCaseService() {
   await userMembershipSaga.receive();
 }
 
-
 const repository: TransactionMySQLRepository = new TransactionMySQLRepository();
+
+const sendInformationAdministrationSaga = new SendInformationAdministrationSaga();
+const sendInformationAdministrationUseCase = new SendInformationAdministrationUseCaseService(repository, sendInformationAdministrationSaga);
+
+export const sendInformationAdministrationController =  new SendInformationAdministrationController(sendInformationAdministrationUseCase);
 
 const createTransactionUseCase: CreateTransactionUseCase = new CreateTransactionUseCase(repository);
 const getMembershipByUserUseCase: GetMembershipByUserUseCase = new GetMembershipByUserUseCase(repository);

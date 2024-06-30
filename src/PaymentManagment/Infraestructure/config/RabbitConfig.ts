@@ -20,9 +20,11 @@ const rabbitSettings: any = {
 export async function setupRabbitMQ(queueName: string, exchangeName: string, routingKey: string) {
     const connection = await amqp.connect(rabbitSettings);
     const channel = await connection.createChannel();
+    
+    // Declarar el intercambio antes de enlazar la cola
+    await channel.assertExchange(exchangeName, 'direct', { durable: true });
     await channel.assertQueue(queueName, { durable: true });
     await channel.bindQueue(queueName, exchangeName, routingKey);
+    
     return channel;
 }
-
-

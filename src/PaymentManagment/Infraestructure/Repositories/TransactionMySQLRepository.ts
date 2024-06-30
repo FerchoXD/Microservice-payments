@@ -2,6 +2,16 @@ import { ITransaction } from "../../Domain/Ports/ITransaction";
 import { TransactionModel } from "../Models/MySQL/TransactionModel";
 
 export class TransactionMySQLRepository implements ITransaction {
+    async sendInformationAdministration(): Promise<any> {
+        try {
+            return await TransactionModel.findAll();
+        } catch (error) {
+            return {
+                status: 500,
+                message: `Internal server error ${error}`,
+            };
+        }
+    }
 
     async create(membershipName: string, status: string, userUUID: string, shipmentUUID: string, amount: number, transactionDate: Date): Promise<any> {
         try {

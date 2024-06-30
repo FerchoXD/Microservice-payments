@@ -1,7 +1,6 @@
 import { Signale } from 'signale';
 import { setupRabbitMQ } from '../../Infraestructure/config/RabbitConfig';
 import { GetMembershipByUserUseCase } from '../UseCases/GetMembershipByUserUseCase';
-import { ITransaction } from '../../Domain/Ports/ITransaction';
 
 export class UserMembershipSaga {
     private queueName: string = process.env.RABBIT_QUEUE_MEMBERSHIP || 'default';
