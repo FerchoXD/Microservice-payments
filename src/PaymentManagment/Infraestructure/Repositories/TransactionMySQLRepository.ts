@@ -8,13 +8,8 @@ export class TransactionMySQLRepository implements ITransaction {
             const data = await TransactionModel.findAll({ 
                 where: { status: 'Done' },
                 attributes: ['userUUID', 'membershipName', 'amount', 'transactionDate'] 
-            })
-            return { status: 200, data }
-
-    async sendInformationAdministration(): Promise<any> {
-        try {
-            return await TransactionModel.findAll();
-
+            });
+            return { status: 200, data };
         } catch (error) {
             return {
                 status: 500,
@@ -23,11 +18,31 @@ export class TransactionMySQLRepository implements ITransaction {
         }
     }
 
-    async create(membershipName: string, status: string, userUUID: string, shipmentUUID: string, amount: number, transactionDate: Date, promotion: string, orderUUID: string, email: string
+    async sendInformationAdministration(): Promise<any> {
+        try {
+            const data = await TransactionModel.findAll();
+            return { status: 200, data };
+        } catch (error) {
+            return {
+                status: 500,
+                message: `Internal server error ${error}`,
+            };
+        }
+    }
+
+    async create(
+        membershipName: string, 
+        status: string, 
+        userUUID: string, 
+        shipmentUUID: string, 
+        amount: number, 
+        transactionDate: Date, 
+        promotion: string, 
+        orderUUID: string, 
+        email: string
     ): Promise<any> {
         try {
-            let data;
-            data = await TransactionModel.create({
+            const data = await TransactionModel.create({
                 membershipName,
                 status,
                 userUUID,
@@ -38,7 +53,7 @@ export class TransactionMySQLRepository implements ITransaction {
                 orderUUID,
                 email
             });
-            console.log("I'm returing the data", data.toJSON());
+            console.log("I'm returning the data", data.toJSON());
             return {
                 status: 201,
                 data: data.toJSON()
@@ -51,12 +66,11 @@ export class TransactionMySQLRepository implements ITransaction {
         }
     }
 
-
     async getMembershipByUser(userUUID: string): Promise<any> {
         try {
             const data = await TransactionModel.findOne({
                 where: { userUUID: userUUID },
-                attributes: ['uuid', 'userUUID', 'membershipName', 'status','transactionDate', 'promotion', 'orderUUID','email', 'amount' ]
+                attributes: ['uuid', 'userUUID', 'membershipName', 'status', 'transactionDate', 'promotion', 'orderUUID', 'email', 'amount']
             });
 
             if (!data) {
@@ -88,7 +102,7 @@ export class TransactionMySQLRepository implements ITransaction {
             if (!data) {
                 return {
                     status: 404,
-                    message: 'User not found',
+                    message: 'Shipment not found',
                 };
             }
 
@@ -103,5 +117,4 @@ export class TransactionMySQLRepository implements ITransaction {
             };
         }
     }
-
 }

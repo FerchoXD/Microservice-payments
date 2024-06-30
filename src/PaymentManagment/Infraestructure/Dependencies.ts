@@ -1,12 +1,8 @@
 import { DatabaseConfig } from "../../Database/Config/IDatabaseConfig";
 import { MySQLConfig } from "../../Database/Config/MySQL/MySQLConfig";
 import { CreateTransactionUseCase } from "../Application/UseCases/CreateTransactionUseCase";
-
 import { GetAllUseCase } from "../Application/UseCases/GetAllUseCase";
 import { GetMembershipByUserUseCase } from "../Application/UseCases/GetMembershipByUserUseCase";
-
-import { GetMembershipByUserUseCase } from '../Application/UseCases/GetMembershipByUserUseCase';
-
 import { GetShipmentByUUIDUseCase } from "../Application/UseCases/GetShipmentByUUIDUseCase";
 import { CreateTransactioncontroller } from "./Controllers/CreateTransactionController";
 import { GetAllController } from "./Controllers/GetAllController";
@@ -17,6 +13,9 @@ import { UserMembershipSaga } from "../Application/Services/UserMembershipSaga";
 import { SendInformationAdministrationUseCaseService } from "../Application/UseCases/SendInformationAdministrationUseCaseService";
 import { SendInformationAdministrationSaga } from "../Application/Services/SendInformationAdministrationSaga";
 import { SendInformationAdministrationController } from "./Controllers/SendInformationAdministrationController";
+import { SendInfoNotificationSaga } from "../Application/Services/SendInfoNotificationSaga";
+import { SendInfoNotificationUseCase } from "../Application/UseCases/SendInfoNotificationUseCase";
+import { SendInfoNotificationController } from "./Controllers/SendInfoNotificationController";
 
 export type DatabaseType = 'MySQL';
 const dbType: DatabaseType = 'MySQL';
@@ -50,7 +49,11 @@ const getMembershipByUserUseCase: GetMembershipByUserUseCase = new GetMembership
 const getShipmentByUUIDUseCase: GetShipmentByUUIDUseCase = new GetShipmentByUUIDUseCase(repository);
 const getAllUseCase: GetAllUseCase = new GetAllUseCase(repository);
 
+const sendInfoNotificationSaga = new SendInfoNotificationSaga();
+const sendInfoNotificationUseCase = new SendInfoNotificationUseCase(repository, sendInfoNotificationSaga);
+
 export const createTransactionController: CreateTransactioncontroller = new CreateTransactioncontroller(createTransactionUseCase);
 export const getMembershipByUserController: GetMembershipByUserController = new GetMembershipByUserController(getMembershipByUserUseCase);
 export const getShipmentByUUIDController: GetShipmentByUUIDController = new GetShipmentByUUIDController(getShipmentByUUIDUseCase);
 export const getAllController: GetAllController = new GetAllController(getAllUseCase);
+export const sendInfoNotificationController: SendInfoNotificationController = new SendInfoNotificationController(sendInfoNotificationUseCase);
