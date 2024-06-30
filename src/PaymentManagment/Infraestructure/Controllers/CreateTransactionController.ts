@@ -13,7 +13,10 @@ export class CreateTransactioncontroller {
             userUUID,
             shipmentUUID = '',
             amount,
-            transactionDate
+            transactionDate,
+            orderUUID,
+            email,
+            promotion
         } = req.body;
 
         // Si ninguno de los dos campos (membershipName o shipmentUUID) está presente, retornar un error
@@ -27,7 +30,10 @@ export class CreateTransactioncontroller {
             'userUUID',
             // 'shipmentUUID', 
             'amount',
-            'transactionDate'
+            'transactionDate',
+            'orderUUID',
+            'email',
+            'promotion'
         ];
 
         if (!validateProperties(req.body, ...requiredProperties)) {
@@ -36,9 +42,9 @@ export class CreateTransactioncontroller {
 
         let response;
         if (membershipName)
-            response = await this.useCase.run(membershipName, status, userUUID, shipmentUUID = "", amount, transactionDate);
+            response = await this.useCase.run(membershipName, status, userUUID, shipmentUUID = "", amount, transactionDate,promotion, orderUUID, email);
         else
-            response = await this.useCase.run(membershipName = "", status, userUUID, shipmentUUID, amount, transactionDate);
+            response = await this.useCase.run(membershipName = "", status, userUUID, shipmentUUID, amount, transactionDate, promotion, orderUUID, email);
 
         return res.status(response.status).json(response);
     }

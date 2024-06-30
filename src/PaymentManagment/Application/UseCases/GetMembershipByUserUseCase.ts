@@ -4,7 +4,7 @@ export class GetMembershipByUserUseCase {
 
     constructor(readonly repository: ITransaction){}
 
-    async run(userUUID: string) {
+    async execute(userUUID: string) {
         return await this.repository.getMembershipByUser(userUUID);
     }
 

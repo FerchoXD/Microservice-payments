@@ -9,6 +9,9 @@ export class TransactionModel extends Model {
     shipmentUUID!: string;
     amount!: number;
     transactionDate!: Date;
+    promotion!: string;
+    orderUUID!: string;
+    email!: string;
 }
 
 TransactionModel.init({
@@ -41,6 +44,19 @@ TransactionModel.init({
     },
     transactionDate: {
         type: DataTypes.DATE,
+        allowNull: false
+    },
+    promotion: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    orderUUID: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING,
         allowNull: false
     }
 }, { 

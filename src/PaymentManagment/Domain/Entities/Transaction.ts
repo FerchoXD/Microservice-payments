@@ -8,8 +8,11 @@ export class Transaction {
     shipmentUUID: string;
     amount: number;
     transactionDate: Date;
+    promotion: string;
+    orderUUID: string;
+    email: string;
 
-    constructor(membershipName: string, status: string, userUUID: string, shipmentUUID: string, amount: number, date:Date) {
+    constructor(membershipName: string, status: string, userUUID: string, shipmentUUID: string, amount: number, date:Date,promotion: string,orderUUID: string,email: string) {
         this.uuid = this.generateUuid();
         this.membershipName = membershipName;
         this.status = status;
@@ -17,6 +20,10 @@ export class Transaction {
         this.shipmentUUID = shipmentUUID;
         this.amount = amount;
         this.transactionDate = date;
+        this.promotion = promotion;
+        this.orderUUID = orderUUID;
+        this.email = email;
+
     }
 
     generateUuid(): string {
