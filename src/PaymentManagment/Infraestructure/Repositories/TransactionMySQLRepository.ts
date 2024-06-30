@@ -2,6 +2,7 @@ import { ITransaction } from "../../Domain/Ports/ITransaction";
 import { TransactionModel } from "../Models/MySQL/TransactionModel";
 
 export class TransactionMySQLRepository implements ITransaction {
+
     async getAll(): Promise<any> {
         try {
             const data = await TransactionModel.findAll({ 
@@ -9,6 +10,11 @@ export class TransactionMySQLRepository implements ITransaction {
                 attributes: ['userUUID', 'membershipName', 'amount', 'transactionDate'] 
             })
             return { status: 200, data }
+
+    async sendInformationAdministration(): Promise<any> {
+        try {
+            return await TransactionModel.findAll();
+
         } catch (error) {
             return {
                 status: 500,

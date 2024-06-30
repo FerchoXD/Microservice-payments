@@ -12,7 +12,7 @@ export class GetMembershipByUserController {
             return res.status(400).json({message: "'Missing required properties'"});
         }
 
-        const response = await this.useCase.run(req.body.userUUID);
+        const response = await this.useCase.execute(req.body.userUUID);
         
         return res.status(response.status).json(response);
     }
