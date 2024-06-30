@@ -1,12 +1,13 @@
 import { DatabaseConfig } from "../../Database/Config/IDatabaseConfig";
 import { MySQLConfig } from "../../Database/Config/MySQL/MySQLConfig";
 import { CreateTransactionUseCase } from "../Application/UseCases/CreateTransactionUseCase";
-import { GetMembershipByUserUseCase } from "../Application/UseCases/GetMembershipByUserUseCase";
+import { GetMembershipByUserUseCase } from '../Application/UseCases/GetMembershipByUserUseCase';
 import { GetShipmentByUUIDUseCase } from "../Application/UseCases/GetShipmentByUUIDUseCase";
 import { CreateTransactioncontroller } from "./Controllers/CreateTransactionController";
 import { GetMembershipByUserController } from "./Controllers/GetMembershipByUserController";
 import { GetShipmentByUUIDController } from "./Controllers/GetShipmentByUUIDController";
 import { TransactionMySQLRepository } from "./Repositories/TransactionMySQLRepository";
+import { UserMembershipSaga } from "../Application/Services/UserMembershipSaga";
 
 export type DatabaseType = 'MySQL';
 const dbType: DatabaseType = 'MySQL';
@@ -20,6 +21,14 @@ const dbConfig = getDatabaseConfig();
 dbConfig.initialize().then(() => {
   console.log('Database initialized.')
 });
+
+export async function DecreaceSoldProductUseCaseService() {
+  const transactionRepository = new TransactionMySQLRepository();
+  const getMembershipByUserUseCase = new GetMembershipByUserUseCase(transactionRepository);
+  const userMembershipSaga = new UserMembershipSaga(getMembershipByUserUseCase);
+  await userMembershipSaga.receive();
+}
+
 
 const repository: TransactionMySQLRepository = new TransactionMySQLRepository();
 
