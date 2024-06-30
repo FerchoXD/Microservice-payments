@@ -2,18 +2,24 @@ import express, { Application } from "express";
 import cors from "cors";
 import morgan from 'morgan';
 import { TransactionRouter } from "./Infraestructure/Routes/TransactionRouter";
+import {Signale} from "signale";
 import { DecreaceSoldProductUseCaseService } from "./Infraestructure/Dependencies";
 
+
 const app:Application = express();
+const signale = new Signale();
 
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
 
-app.use('/api/v1/transactions', TransactionRouter);
+app.use('/payments/api/v1/transactions', TransactionRouter);
 
-const port:string = process.env.PORT || '3000';
+const PORT:number = Number(8080);
+const HOST:string = process.env.HOST_SERVER || '0.0.0.0';
+let server = null;
+
 
 let server = null;
 
@@ -46,3 +52,4 @@ async function startServer() {
 startServer();
 
 export { app, server };
+
