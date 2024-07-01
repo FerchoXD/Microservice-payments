@@ -3,25 +3,27 @@ import cors from "cors";
 import morgan from 'morgan';
 import { TransactionRouter } from "./Infraestructure/Routes/TransactionRouter";
 import { DecreaceSoldProductUseCaseService } from "./Infraestructure/Dependencies";
-
+import {Signale} from "signale";
 const app:Application = express();
+const signale = new Signale();
 
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
 
 
-app.use('/api/v1/transactions', TransactionRouter);
+app.use('/payments/api/v1/transactions', TransactionRouter);
 
-const port:string = process.env.PORT || '3000';
+const HOST:string = process.env.HOST_SERVER || '0.0.0.0';
+const PORT:number  = Number(process.env.PORT_SERVER) || 8080;
 
 let server = null;
 
 async function startServer() {
     await DecreaceSoldProductUseCaseService();
 
-    server = app.listen(port, async () => {
-        console.log(`SERVER RUNNING IN http://localhost:${port}.`);
+    server = app.listen(PORT, HOST, () => {
+        signale.success(`Server running on http://${HOST}:${PORT}`);
 
         /*
         !!Descomentar para enviar mensajes a RabbitMQ
